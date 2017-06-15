@@ -1,0 +1,1811 @@
+<HTML>
+	<HEADER>
+		<TITLE>Deck Creator Code</TITLE>
+	</HEADER>
+	<BODY bgcolor = #000000 text = #FFFFFF>
+		<CENTER>
+			<p>
+'Andrew Eldridge (MapleAce Programming)
+'Development Start: 5/28/17
+'Development End: 6/15/17
+'Version Start: 5/28/17
+'Version End: 6/15/17
+'Clash Royale Deck Creator v1.0.0
+'Alpha release of the Clash Royale random deck creator
+Public Class Form1
+    Dim DPS() As Boolean = {False, False, True, False, False, False, False, True, False, False, False, False, False, False, False, True, True, True, True, False, False, False, False, False, True, False, False, True, False, True, False, False, False, False, False, False, False, False, False, True, False, False, False, False, True, False, False, False, False, False, False, False, False, True, False, True, False, False, False, True, False, False, False, False, True, False, True, True, False, True, True, True, False}
+    Dim Tank() As Boolean = {False, False, False, False, False, False, True, False, False, False, False, False, False, False, False, False, False, False, True, True, False, False, False, False, False, False, False, False, False, False, True, False, True, False, False, False, False, False, False, False, False, False, False, True, False, False, False, True, False, False, False, False, False, False, True, False, False, False, False, True, True, False, True, False, False, False, False, False, False, False, False, False, True}
+    Dim Defense() As Boolean = {True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, False, True, False, True, True, True, True, True, True, False, True, True, True, True, False, True, True, False, True, False, False, True, True, True, True, True, False, True, False, True, False, False, True, True, True, False, True, True, True, False, True, True, False, True, False, True, True, True, True, True, True, True, False, True, False}
+    Dim Building() As Boolean = {False, False, False, False, False, False, False, False, False, False, True, False, False, True, True, False, False, False, False, False, False, True, False, False, False, False, True, False, False, False, False, True, False, True, False, True, False, True, True, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, True, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False}
+    Dim Splash() As Boolean = {False, True, False, False, True, False, False, False, False, False, False, False, True, False, True, False, False, False, False, False, False, False, False, False, False, False, True, False, False, False, True, False, False, True, True, False, False, False, False, False, False, False, False, False, False, False, False, True, False, False, True, True, True, False, True, False, True, False, False, False, False, False, False, True, False, True, False, False, False, False, False, True, False}
+    Dim Support() As Boolean = {True, True, True, False, True, True, False, True, False, True, False, True, True, False, False, True, True, True, False, False, True, False, True, True, True, False, True, False, True, True, False, False, False, False, True, False, False, False, False, True, True, True, True, True, True, True, True, True, True, True, True, True, True, False, True, True, False, False, True, False, False, True, False, True, True, True, True, True, True, True, True, True, False}
+    Dim Spell() As Boolean = {False, False, False, True, False, False, False, False, True, False, False, False, False, False, False, False, False, False, False, False, True, False, False, False, False, True, False, False, False, False, False, False, False, False, False, False, True, False, False, False, True, True, False, False, False, True, True, False, True, True, False, False, False, False, False, False, False, False, True, False, False, True, False, False, False, False, False, False, False, False, True, False, False}
+    Dim Cycle() As Boolean = {True, True, True, False, True, True, False, True, False, True, False, True, True, False, False, False, False, False, False, True, False, True, True, True, False, False, True, False, False, False, False, False, False, False, False, True, False, False, False, False, True, False, True, True, True, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, True, True, True, True, False, False, False, False, False, False, False}
+    Dim TargetsAir() As Boolean = {False, True, False, True, True, True, False, True, True, True, False, True, False, True, False, False, True, False, False, False, False, False, True, True, False, True, True, False, True, False, False, True, False, False, True, True, True, False, False, True, False, False, False, False, False, True, False, True, True, True, False, True, True, False, False, False, True, False, True, False, False, False, False, True, False, True, True, False, True, False, False, False, False}
+    Dim TargetsBuildings() As Boolean = {False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, True, True, False, False, False, False, True, False, False, True, False, False, False, False, True, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, True, False, False, False, False, False, False, True, False, False, False, False, False, False, False, False, False, False, False, True}
+    Dim Flying() As Boolean = {False, False, False, False, False, False, False, False, False, True, False, False, False, False, False, False, True, False, False, False, False, False, False, True, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, True, False, False, False, False, False, True, False, False, False, False, False, False, False, False, False, False, False, False, True, False, False, False, False, False, True}
+    Dim ElixirCost() As Integer = {1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 4, 4, 5, 5, 6, 6, 2, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 7, 9, 4, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6, 7, 8, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 6, 7}
+    Dim RedFlagged(72) As Boolean
+    Dim Cards(72) As Boolean
+    Dim CardList() As String = {"Skeletons", "Ice Spirit", "Goblins", "Zap", "Fire Spirits", "Spear Goblins", "Knight", "Archers", "Arrows", "Minions", "Cannon", "Goblin Gang", "Bomber", "Tesla", "Mortar", "Barbarians", "Minion Horde", "Elite Barbarians", "Royal Giant", "Ice Golem", "Heal", "Tombstone", "Dart Goblin", "Mega Minion", "Battle Ram", "Fireball", "Furnace", "Hog Rider", "Musketeer", "Mini Pekka", "Valkyrie", "Inferno Tower", "Giant", "Bomb Tower", "Wizard", "Goblin Hut", "Rocket", "Elixir Collector", "Barbarian Hut", "Three Musketeers", "Mirror", "Rage", "Skeleton Army", "Guards", "Goblin Barrel", "Tornado", "Clone", "Baby Dragon", "Freeze", "Poison", "Dark Prince", "Witch", "Executioner", "Balloon", "Bowler", "Prince", "Giant Skeleton", "X-Bow", "Lightning", "Pekka", "Golem", "The Log", "Miner", "Princess", "Bandit", "Ice Wizard", "Inferno Dragon", "Night Witch", "Electro Wizard", "Lumberjack", "Graveyard", "Sparky", "Lava Hound"}
+    Dim CardsOwned As String = Nothing
+    Dim CardsMissing As String = Nothing
+    Dim CardsOwnedInteger As Integer = 0
+    Dim strElixirCostSetting As String = "No Preference"
+    Dim strRedFlagSetting As String = "None"
+    Dim intRedFlagSetting As Integer = 73
+    Dim strDeckTypeSetting As String = "No Preference"
+    Dim strCounterSetting As String = "None"
+    Private Sub Application_Start(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        MessageBox.Show("Welcome to the Clash Royale Deck Creator!" & vbCrLf & "Created by MapleAce Programming" & vbCrLf & "(MapleAceProgramming.dx.am)", "Welcome")
+        MessageBox.Show("Begin deck creation by checking the boxes next to the cards that you own in the game." & vbCrLf & "Press ""Start"" when you are ready.", "Instructions")
+    End Sub
+    Private Sub btnCheckAll_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnCheckAll.Click
+        For index As Integer = 0 To 72
+            chkCards.SetItemCheckState(index, CheckState.Checked)
+        Next index
+    End Sub
+    Private Sub btnStart_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnStart.Click
+        CardsOwnedInteger = 0
+        For index As Integer = 0 To 72
+            If chkCards.GetItemCheckState(index) = CheckState.Checked Then
+                Cards(index) = True
+                CardsOwnedInteger += 1
+            ElseIf chkCards.GetItemCheckState(index) = CheckState.Unchecked Then
+                Cards(index) = False
+            End If
+        Next index
+        If CardsOwnedInteger >= 8 Then
+            For index As Integer = 0 To 72
+                chkCards.SetItemCheckState(index, CheckState.Unchecked)
+            Next index
+            For index As Integer = 0 To 72
+                If Cards(index) = True Then
+                    If CardsOwned = Nothing Then
+                        CardsOwned = chkCards.Items.Item(index)
+                    Else
+                        CardsOwned = CardsOwned & vbCrLf & chkCards.Items.Item(index)
+                    End If
+                ElseIf Cards(index) = False Then
+                    If CardsMissing = Nothing Then
+                        CardsMissing = chkCards.Items.Item(index)
+                    Else
+                        CardsMissing = CardsMissing & vbCrLf & chkCards.Items.Item(index)
+                    End If
+                End If
+            Next index
+            Call StartUI()
+        Else
+            MessageBox.Show("You must have at least 8 cards to create a deck.", "Not Enough Cards")
+        End If
+    End Sub
+    Private Sub SettingButton_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnElixirCost.Click, btnRedFlag.Click, btnDeckType.Click, btnCounter.Click
+        Dim ButtonClicked As Button = sender
+        Select Case ButtonClicked.Tag
+            Case "Elixir Cost"
+                Call ElixirCostUI()
+            Case "Red Flag"
+                Call RedFlagUI()
+            Case "Deck Type"
+                Call DeckTypeUI()
+            Case "Counter"
+                MessageBox.Show("This feature will be released in a later update", "Counter Cards")
+                'Call CounterUI()
+        End Select
+    End Sub
+    Private Sub SettingVerifyButton_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnLowCost.Click, btnMediumCost.Click, btnHighCost.Click, btnRedFlagVerify.Click, btnCycleDeck.Click, btnSiegeDeck.Click, btnBeatdownDeck.Click, btnNoPreferenceCost.Click, btnNoPreferenceDeck.Click
+        Dim ButtonClicked As Button = sender
+        Select Case ButtonClicked.Tag
+            Case "btnLowCost"
+                strElixirCostSetting = "Low Cost"
+            Case "btnMediumCost"
+                strElixirCostSetting = "Medium Cost"
+            Case "btnHighCost"
+                strElixirCostSetting = "High Cost"
+            Case "btnNoPreferenceCost"
+                strElixirCostSetting = "No Preference"
+            Case "btnRedFlagVerify"
+                Dim blnError As Boolean = False
+                Dim strCheckedCards As String = Nothing
+                Dim intRedFlagCounter As Integer = 0
+                For index As Integer = 0 To 72
+                    If chkCards.GetItemCheckState(index) = CheckState.Checked Then
+                        If Cards(index) = True Then
+                            RedFlagged(index) = True
+                            intRedFlagSetting = index
+                            intRedFlagCounter += 1
+                            If strCheckedCards = Nothing Then
+                                strCheckedCards = chkCards.Items.Item(index)
+                            Else
+                                strCheckedCards = strCheckedCards & vbCrLf & chkCards.Items.Item(index)
+                            End If
+                        Else
+                            blnError = True
+                        End If
+                    End If
+                Next index
+                For index As Integer = 0 To 72
+                    chkCards.SetItemCheckState(index, CheckState.Unchecked)
+                Next index
+                If blnError = True Then
+                    MessageBox.Show("Invalid red flag." & vbCrLf & "Red Flag is not owned.", "Parameter Error")
+                    intRedFlagSetting = 73
+                Else
+                    If intRedFlagCounter > 1 Then
+                        MessageBox.Show("You may only red flag one card per deck.", "Too many flags")
+                        intRedFlagSetting = 73
+                    Else
+                        If intRedFlagCounter > 0 Then
+                            strRedFlagSetting = strCheckedCards
+                        ElseIf intRedFlagCounter = 0 Then
+                            strRedFlagSetting = "None"
+                            intRedFlagSetting = 73
+                        End If
+                    End If
+                End If
+            Case "btnCycleDeck"
+                strDeckTypeSetting = "Cycle"
+            Case "btnSiegeDeck"
+                strDeckTypeSetting = "Siege"
+            Case "btnBeatdownDeck"
+                strDeckTypeSetting = "Beatdown"
+            Case "btnNoPreferenceDeck"
+                strDeckTypeSetting = "No Preference"
+        End Select
+        Call StartUI()
+    End Sub
+    Private Sub Play_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles picPlayButton.Click, picTryAgain.Click
+        Call PlayUI()
+        Dim blnError As Boolean = False
+        Dim LoopCounter As Integer = 0
+        Dim intCardOne As Integer = 0
+        Dim intCardTwo As Integer = 0
+        Dim intCardThree As Integer = 0
+        Dim intCardFour As Integer = 0
+        Dim intCardFive As Integer = 0
+        Dim intCardSix As Integer = 0
+        Dim intCardSeven As Integer = 0
+        Dim intCardEight As Integer = 0
+        Dim blnRedFlagFound As Boolean = False
+        Dim intDPSCards As Integer = 0
+        Dim intTankCards As Integer = 0
+        Dim intDefenseCards As Integer = 0
+        Dim intBuildingCards As Integer = 0
+        Dim intSplashCards As Integer = 0
+        Dim intSupportCards As Integer = 0
+        Dim intSpellCards As Integer = 0
+        Dim intCycleCards As Integer = 0
+        Dim intTargetsAirCards As Integer = 0
+        Dim intTargetsBuildingsCards As Integer = 0
+        Dim intFlyingCards As Integer = 0
+        Dim intTotalCost As Integer = 0
+        Dim dblAverageCost As Double = 0
+        Do
+            blnError = False
+            intCardOne = 0
+            intCardTwo = 0
+            intCardThree = 0
+            intCardFour = 0
+            intCardFive = 0
+            intCardSix = 0
+            intCardSeven = 0
+            intCardEight = 0
+            blnRedFlagFound = False
+            intDPSCards = 0
+            intTankCards = 0
+            intDefenseCards = 0
+            intBuildingCards = 0
+            intSplashCards = 0
+            intSupportCards = 0
+            intSpellCards = 0
+            intCycleCards = 0
+            intTargetsAirCards = 0
+            intTargetsBuildingsCards = 0
+            intFlyingCards = 0
+            intTotalCost = 0
+            dblAverageCost = 0
+            Call GenerateNumbers(intCardOne, intCardTwo, intCardThree, intCardFour, intCardFive, intCardSix, intCardSeven, intCardEight)
+            Dim GeneratedCards() As Integer = {intCardOne, intCardTwo, intCardThree, intCardFour, intCardFive, intCardSix, intCardSeven, intCardEight}
+            For index As Integer = 0 To 7
+                If Cards(GeneratedCards(index)) = False Then
+                    blnError = True
+                End If
+                If DPS(GeneratedCards(index)) = True Then
+                    intDPSCards += 1
+                End If
+                If Tank(GeneratedCards(index)) = True Then
+                    intTankCards += 1
+                End If
+                If Defense(GeneratedCards(index)) = True Then
+                    intDefenseCards += 1
+                End If
+                If Building(GeneratedCards(index)) = True Then
+                    intBuildingCards += 1
+                End If
+                If Splash(GeneratedCards(index)) = True Then
+                    intSplashCards += 1
+                End If
+                If Support(GeneratedCards(index)) = True Then
+                    intSupportCards += 1
+                End If
+                If Spell(GeneratedCards(index)) = True Then
+                    intSpellCards += 1
+                End If
+                If Cycle(GeneratedCards(index)) = True Then
+                    intCycleCards += 1
+                End If
+                If TargetsAir(GeneratedCards(index)) = True Then
+                    intTargetsAirCards += 1
+                End If
+                If TargetsBuildings(GeneratedCards(index)) = True Then
+                    intTargetsBuildingsCards += 1
+                End If
+                If Flying(GeneratedCards(index)) = True Then
+                    intFlyingCards += 1
+                End If
+                intTotalCost += ElixirCost(GeneratedCards(index))
+            Next index
+            dblAverageCost = intTotalCost / 8
+            If intTargetsAirCards < 2 Then
+                blnError = True
+            End If
+            If intTargetsBuildingsCards > 1 Then
+                blnError = True
+            End If
+            If intDPSCards < 1 Then
+                blnError = True
+            End If
+            If intSupportCards < 2 Then
+                blnError = True
+            End If
+            If intTankCards > 2 Then
+                blnError = True
+            End If
+            If intDefenseCards < 1 Then
+                blnError = True
+            End If
+            If intBuildingCards > 2 Then
+                blnError = True
+            End If
+            If intSplashCards < 1 Or intSplashCards > 3 Then
+                blnError = True
+            End If
+            If intSpellCards < 1 Or intSpellCards > 3 Then
+                blnError = True
+            End If
+            If intCycleCards > 4 And strDeckTypeSetting <> "Cycle" Then
+                blnError = True
+            End If
+            If intFlyingCards > 4 Then
+                blnError = True
+            End If
+            Select Case strElixirCostSetting
+                Case "Low Cost"
+                    If dblAverageCost > 2.9 Then
+                        blnError = True
+                    End If
+                Case "Medium Cost"
+                    If dblAverageCost < 3.0 Or dblAverageCost > 3.6 Then
+                        blnError = True
+                    End If
+                Case "High Cost"
+                    If dblAverageCost < 3.7 Then
+                        blnError = True
+                    End If
+            End Select
+            If strRedFlagSetting <> "None" Then
+                'For index As Integer = 0 To 72
+                '    If RedFlagged(index) = True Then
+                '        For cardindex As Integer = 0 To 7
+                '            If GeneratedCards(cardindex) = index Then
+                '                blnRedFlagFound = True
+                '            End If
+                '        Next cardindex
+                '    End If
+                'Next index
+                For index As Integer = 0 To 7
+                    If GeneratedCards(index) = intRedFlagSetting Then
+                        blnRedFlagFound = True
+                    End If
+                Next index
+            Else
+                blnRedFlagFound = False
+            End If
+            If blnRedFlagFound = False Then
+                blnError = True
+            End If
+            Select Case strDeckTypeSetting
+                Case "Cycle"
+                    If intCycleCards < 4 Then
+                        blnError = True
+                    End If
+                    If dblAverageCost > 3.6 And strElixirCostSetting <> "High Cost" Then
+                        blnError = True
+                    End If
+                Case "Siege"
+                    If intCardOne <> 14 And intCardOne <> 57 And intCardTwo <> 14 And intCardTwo <> 57 And intCardThree <> 14 And intCardThree <> 57 And intCardFour <> 14 And intCardFour <> 57 And intCardFive <> 14 And intCardFive <> 57 And intCardSix <> 14 And intCardSix <> 57 And intCardSeven <> 14 And intCardSeven <> 57 And intCardEight <> 14 And intCardEight <> 57 Then
+                        blnError = True
+                    End If
+                Case "Beatdown"
+                    If intTankCards < 1 Then
+                        blnError = True
+                    End If
+                    If intCardOne = 14 Or intCardOne = 57 Or intCardTwo = 14 Or intCardTwo = 57 Or intCardThree = 14 Or intCardThree = 57 Or intCardFour = 14 Or intCardFive = 57 Or intCardSix = 14 Or intCardSix = 57 Or intCardSeven = 14 Or intCardSeven = 57 Or intCardEight = 14 Or intCardEight = 57 Then
+                        blnError = True
+                    End If
+            End Select
+            LoopCounter += 1
+            If LoopCounter >= 1000000 Then
+                blnError = False
+            End If
+        Loop While blnError = True
+        If LoopCounter >= 1000000 Then
+            intCardOne = 73
+            intCardTwo = 73
+            intCardThree = 73
+            intCardFour = 73
+            intCardFive = 73
+            intCardSix = 73
+            intCardSeven = 73
+            intCardEight = 73
+            MessageBox.Show("An error occurred in creating your deck." & vbCrLf & "You either have too few cards to create a balanced deck or your settings do not work together.", "Program Timed Out")
+        End If
+        Select Case intCardOne
+            Case 0
+                picCardOne.Image = My.Resources.Skeletons
+            Case 1
+                picCardOne.Image = My.Resources.IceSpirit
+            Case 21
+                picCardOne.Image = My.Resources.Goblins
+            Case 3
+                picCardOne.Image = My.Resources.Zap
+            Case 4
+                picCardOne.Image = My.Resources.FireSpirits
+            Case 5
+                picCardOne.Image = My.Resources.SpearGoblins
+            Case 6
+                picCardOne.Image = My.Resources.Knight
+            Case 7
+                picCardOne.Image = My.Resources.Archers
+            Case 8
+                picCardOne.Image = My.Resources.Arrows
+            Case 9
+                picCardOne.Image = My.Resources.Minions
+            Case 10
+                picCardOne.Image = My.Resources.Cannon
+            Case 11
+                picCardOne.Image = My.Resources.GoblinGang
+            Case 12
+                picCardOne.Image = My.Resources.Bomber
+            Case 13
+                picCardOne.Image = My.Resources.Tesla
+            Case 14
+                picCardOne.Image = My.Resources.Mortar
+            Case 15
+                picCardOne.Image = My.Resources.Barbarians
+            Case 16
+                picCardOne.Image = My.Resources.MinionHorde
+            Case 17
+                picCardOne.Image = My.Resources.EliteBarbarians
+            Case 18
+                picCardOne.Image = My.Resources.RoyaleGiant
+            Case 19
+                picCardOne.Image = My.Resources.IceGolem
+            Case 20
+                picCardOne.Image = My.Resources.Heal
+            Case 21
+                picCardOne.Image = My.Resources.Tombstone
+            Case 22
+                picCardOne.Image = My.Resources.DartGoblin
+            Case 23
+                picCardOne.Image = My.Resources.MegaMinion
+            Case 24
+                picCardOne.Image = My.Resources.BattleRam
+            Case 25
+                picCardOne.Image = My.Resources.Fireball
+            Case 26
+                picCardOne.Image = My.Resources.Furnace
+            Case 27
+                picCardOne.Image = My.Resources.HogRider
+            Case 28
+                picCardOne.Image = My.Resources.Musketeer
+            Case 29
+                picCardOne.Image = My.Resources.MiniPekka
+            Case 30
+                picCardOne.Image = My.Resources.Valkyrie
+            Case 31
+                picCardOne.Image = My.Resources.InfernoTower
+            Case 32
+                picCardOne.Image = My.Resources.Giant
+            Case 33
+                picCardOne.Image = My.Resources.BombTower
+            Case 34
+                picCardOne.Image = My.Resources.Wizard
+            Case 35
+                picCardOne.Image = My.Resources.GoblinHut
+            Case 36
+                picCardOne.Image = My.Resources.Rocket
+            Case 37
+                picCardOne.Image = My.Resources.ElixirCollector
+            Case 38
+                picCardOne.Image = My.Resources.BarbarianHut
+            Case 39
+                picCardOne.Image = My.Resources.ThreeMusketeers
+            Case 40
+                picCardOne.Image = My.Resources.Mirror
+            Case 41
+                picCardOne.Image = My.Resources.Rage
+            Case 42
+                picCardOne.Image = My.Resources.SkeletonArmy
+            Case 43
+                picCardOne.Image = My.Resources.Guards
+            Case 44
+                picCardOne.Image = My.Resources.GoblinBarrel
+            Case 45
+                picCardOne.Image = My.Resources.Tornado
+            Case 46
+                picCardOne.Image = My.Resources.Clone
+            Case 47
+                picCardOne.Image = My.Resources.BabyDragon
+            Case 48
+                picCardOne.Image = My.Resources.Freeze
+            Case 49
+                picCardOne.Image = My.Resources.Poison
+            Case 50
+                picCardOne.Image = My.Resources.DarkPrince
+            Case 51
+                picCardOne.Image = My.Resources.Witch
+            Case 52
+                picCardOne.Image = My.Resources.Executioner
+            Case 53
+                picCardOne.Image = My.Resources.Balloon
+            Case 54
+                picCardOne.Image = My.Resources.Bowler
+            Case 55
+                picCardOne.Image = My.Resources.Prince
+            Case 56
+                picCardOne.Image = My.Resources.GiantSkeleton
+            Case 57
+                picCardOne.Image = My.Resources.X_Bow
+            Case 58
+                picCardOne.Image = My.Resources.Lightning
+            Case 59
+                picCardOne.Image = My.Resources.Pekka
+            Case 60
+                picCardOne.Image = My.Resources.Golem
+            Case 61
+                picCardOne.Image = My.Resources.TheLog
+            Case 62
+                picCardOne.Image = My.Resources.Miner
+            Case 63
+                picCardOne.Image = My.Resources.Princess
+            Case 64
+                picCardOne.Image = My.Resources.Bandit
+            Case 65
+                picCardOne.Image = My.Resources.Ice_Wizard
+            Case 66
+                picCardOne.Image = My.Resources.InfernoDragon
+            Case 67
+                picCardOne.Image = My.Resources.NightWitch
+            Case 68
+                picCardOne.Image = My.Resources.ElectroWizard
+            Case 69
+                picCardOne.Image = My.Resources.Lumberjack
+            Case 70
+                picCardOne.Image = My.Resources.Graveyard
+            Case 71
+                picCardOne.Image = My.Resources.Sparky
+            Case 72
+                picCardOne.Image = My.Resources.LavaHound
+            Case 73
+                picCardOne.Image = My.Resources._error
+        End Select
+        Select Case intCardTwo
+            Case 0
+                picCardTwo.Image = My.Resources.Skeletons
+            Case 1
+                picCardTwo.Image = My.Resources.IceSpirit
+            Case 2
+                picCardTwo.Image = My.Resources.Goblins
+            Case 3
+                picCardTwo.Image = My.Resources.Zap
+            Case 4
+                picCardTwo.Image = My.Resources.FireSpirits
+            Case 5
+                picCardTwo.Image = My.Resources.SpearGoblins
+            Case 6
+                picCardTwo.Image = My.Resources.Knight
+            Case 7
+                picCardTwo.Image = My.Resources.Archers
+            Case 8
+                picCardTwo.Image = My.Resources.Arrows
+            Case 9
+                picCardTwo.Image = My.Resources.Minions
+            Case 10
+                picCardTwo.Image = My.Resources.Cannon
+            Case 11
+                picCardTwo.Image = My.Resources.GoblinGang
+            Case 12
+                picCardTwo.Image = My.Resources.Bomber
+            Case 13
+                picCardTwo.Image = My.Resources.Tesla
+            Case 14
+                picCardTwo.Image = My.Resources.Mortar
+            Case 15
+                picCardTwo.Image = My.Resources.Barbarians
+            Case 16
+                picCardTwo.Image = My.Resources.MinionHorde
+            Case 17
+                picCardTwo.Image = My.Resources.EliteBarbarians
+            Case 18
+                picCardTwo.Image = My.Resources.RoyaleGiant
+            Case 19
+                picCardTwo.Image = My.Resources.IceGolem
+            Case 20
+                picCardTwo.Image = My.Resources.Heal
+            Case 21
+                picCardTwo.Image = My.Resources.Tombstone
+            Case 22
+                picCardTwo.Image = My.Resources.DartGoblin
+            Case 23
+                picCardTwo.Image = My.Resources.MegaMinion
+            Case 24
+                picCardTwo.Image = My.Resources.BattleRam
+            Case 25
+                picCardTwo.Image = My.Resources.Fireball
+            Case 26
+                picCardTwo.Image = My.Resources.Furnace
+            Case 27
+                picCardTwo.Image = My.Resources.HogRider
+            Case 28
+                picCardTwo.Image = My.Resources.Musketeer
+            Case 29
+                picCardTwo.Image = My.Resources.MiniPekka
+            Case 30
+                picCardTwo.Image = My.Resources.Valkyrie
+            Case 31
+                picCardTwo.Image = My.Resources.InfernoTower
+            Case 32
+                picCardTwo.Image = My.Resources.Giant
+            Case 33
+                picCardTwo.Image = My.Resources.BombTower
+            Case 34
+                picCardTwo.Image = My.Resources.Wizard
+            Case 35
+                picCardTwo.Image = My.Resources.GoblinHut
+            Case 36
+                picCardTwo.Image = My.Resources.Rocket
+            Case 37
+                picCardTwo.Image = My.Resources.ElixirCollector
+            Case 38
+                picCardTwo.Image = My.Resources.BarbarianHut
+            Case 39
+                picCardTwo.Image = My.Resources.ThreeMusketeers
+            Case 40
+                picCardTwo.Image = My.Resources.Mirror
+            Case 41
+                picCardTwo.Image = My.Resources.Rage
+            Case 42
+                picCardTwo.Image = My.Resources.SkeletonArmy
+            Case 43
+                picCardTwo.Image = My.Resources.Guards
+            Case 44
+                picCardTwo.Image = My.Resources.GoblinBarrel
+            Case 45
+                picCardTwo.Image = My.Resources.Tornado
+            Case 46
+                picCardTwo.Image = My.Resources.Clone
+            Case 47
+                picCardTwo.Image = My.Resources.BabyDragon
+            Case 48
+                picCardTwo.Image = My.Resources.Freeze
+            Case 49
+                picCardTwo.Image = My.Resources.Poison
+            Case 50
+                picCardTwo.Image = My.Resources.DarkPrince
+            Case 51
+                picCardTwo.Image = My.Resources.Witch
+            Case 52
+                picCardTwo.Image = My.Resources.Executioner
+            Case 53
+                picCardTwo.Image = My.Resources.Balloon
+            Case 54
+                picCardTwo.Image = My.Resources.Bowler
+            Case 55
+                picCardTwo.Image = My.Resources.Prince
+            Case 56
+                picCardTwo.Image = My.Resources.GiantSkeleton
+            Case 57
+                picCardTwo.Image = My.Resources.X_Bow
+            Case 58
+                picCardTwo.Image = My.Resources.Lightning
+            Case 59
+                picCardTwo.Image = My.Resources.Pekka
+            Case 60
+                picCardTwo.Image = My.Resources.Golem
+            Case 61
+                picCardTwo.Image = My.Resources.TheLog
+            Case 62
+                picCardTwo.Image = My.Resources.Miner
+            Case 63
+                picCardTwo.Image = My.Resources.Princess
+            Case 64
+                picCardTwo.Image = My.Resources.Bandit
+            Case 65
+                picCardTwo.Image = My.Resources.Ice_Wizard
+            Case 66
+                picCardTwo.Image = My.Resources.InfernoDragon
+            Case 67
+                picCardTwo.Image = My.Resources.NightWitch
+            Case 68
+                picCardTwo.Image = My.Resources.ElectroWizard
+            Case 69
+                picCardTwo.Image = My.Resources.Lumberjack
+            Case 70
+                picCardTwo.Image = My.Resources.Graveyard
+            Case 71
+                picCardTwo.Image = My.Resources.Sparky
+            Case 72
+                picCardTwo.Image = My.Resources.LavaHound
+            Case 73
+                picCardTwo.Image = My.Resources._error
+        End Select
+        Select Case intCardThree
+            Case 0
+                picCardThree.Image = My.Resources.Skeletons
+            Case 1
+                picCardThree.Image = My.Resources.IceSpirit
+            Case 2
+                picCardThree.Image = My.Resources.Goblins
+            Case 3
+                picCardThree.Image = My.Resources.Zap
+            Case 4
+                picCardThree.Image = My.Resources.FireSpirits
+            Case 5
+                picCardThree.Image = My.Resources.SpearGoblins
+            Case 6
+                picCardThree.Image = My.Resources.Knight
+            Case 7
+                picCardThree.Image = My.Resources.Archers
+            Case 8
+                picCardThree.Image = My.Resources.Arrows
+            Case 9
+                picCardThree.Image = My.Resources.Minions
+            Case 10
+                picCardThree.Image = My.Resources.Cannon
+            Case 11
+                picCardThree.Image = My.Resources.GoblinGang
+            Case 12
+                picCardThree.Image = My.Resources.Bomber
+            Case 13
+                picCardThree.Image = My.Resources.Tesla
+            Case 14
+                picCardThree.Image = My.Resources.Mortar
+            Case 15
+                picCardThree.Image = My.Resources.Barbarians
+            Case 16
+                picCardThree.Image = My.Resources.MinionHorde
+            Case 17
+                picCardThree.Image = My.Resources.EliteBarbarians
+            Case 18
+                picCardThree.Image = My.Resources.RoyaleGiant
+            Case 19
+                picCardThree.Image = My.Resources.IceGolem
+            Case 20
+                picCardThree.Image = My.Resources.Heal
+            Case 21
+                picCardThree.Image = My.Resources.Tombstone
+            Case 22
+                picCardThree.Image = My.Resources.DartGoblin
+            Case 23
+                picCardThree.Image = My.Resources.MegaMinion
+            Case 24
+                picCardThree.Image = My.Resources.BattleRam
+            Case 25
+                picCardThree.Image = My.Resources.Fireball
+            Case 26
+                picCardThree.Image = My.Resources.Furnace
+            Case 27
+                picCardThree.Image = My.Resources.HogRider
+            Case 28
+                picCardThree.Image = My.Resources.Musketeer
+            Case 29
+                picCardThree.Image = My.Resources.MiniPekka
+            Case 30
+                picCardThree.Image = My.Resources.Valkyrie
+            Case 31
+                picCardThree.Image = My.Resources.InfernoTower
+            Case 32
+                picCardThree.Image = My.Resources.Giant
+            Case 33
+                picCardThree.Image = My.Resources.BombTower
+            Case 34
+                picCardThree.Image = My.Resources.Wizard
+            Case 35
+                picCardThree.Image = My.Resources.GoblinHut
+            Case 36
+                picCardThree.Image = My.Resources.Rocket
+            Case 37
+                picCardThree.Image = My.Resources.ElixirCollector
+            Case 38
+                picCardThree.Image = My.Resources.BarbarianHut
+            Case 39
+                picCardThree.Image = My.Resources.ThreeMusketeers
+            Case 40
+                picCardThree.Image = My.Resources.Mirror
+            Case 41
+                picCardThree.Image = My.Resources.Rage
+            Case 42
+                picCardThree.Image = My.Resources.SkeletonArmy
+            Case 43
+                picCardThree.Image = My.Resources.Guards
+            Case 44
+                picCardThree.Image = My.Resources.GoblinBarrel
+            Case 45
+                picCardThree.Image = My.Resources.Tornado
+            Case 46
+                picCardThree.Image = My.Resources.Clone
+            Case 47
+                picCardThree.Image = My.Resources.BabyDragon
+            Case 48
+                picCardThree.Image = My.Resources.Freeze
+            Case 49
+                picCardThree.Image = My.Resources.Poison
+            Case 50
+                picCardThree.Image = My.Resources.DarkPrince
+            Case 51
+                picCardThree.Image = My.Resources.Witch
+            Case 52
+                picCardThree.Image = My.Resources.Executioner
+            Case 53
+                picCardThree.Image = My.Resources.Balloon
+            Case 54
+                picCardThree.Image = My.Resources.Bowler
+            Case 55
+                picCardThree.Image = My.Resources.Prince
+            Case 56
+                picCardThree.Image = My.Resources.GiantSkeleton
+            Case 57
+                picCardThree.Image = My.Resources.X_Bow
+            Case 58
+                picCardThree.Image = My.Resources.Lightning
+            Case 59
+                picCardThree.Image = My.Resources.Pekka
+            Case 60
+                picCardThree.Image = My.Resources.Golem
+            Case 61
+                picCardThree.Image = My.Resources.TheLog
+            Case 62
+                picCardThree.Image = My.Resources.Miner
+            Case 63
+                picCardThree.Image = My.Resources.Princess
+            Case 64
+                picCardThree.Image = My.Resources.Bandit
+            Case 65
+                picCardThree.Image = My.Resources.Ice_Wizard
+            Case 66
+                picCardThree.Image = My.Resources.InfernoDragon
+            Case 67
+                picCardThree.Image = My.Resources.NightWitch
+            Case 68
+                picCardThree.Image = My.Resources.ElectroWizard
+            Case 69
+                picCardThree.Image = My.Resources.Lumberjack
+            Case 70
+                picCardThree.Image = My.Resources.Graveyard
+            Case 71
+                picCardThree.Image = My.Resources.Sparky
+            Case 72
+                picCardThree.Image = My.Resources.LavaHound
+            Case 73
+                picCardThree.Image = My.Resources._error
+        End Select
+        Select Case intCardFour
+            Case 0
+                picCardFour.Image = My.Resources.Skeletons
+            Case 1
+                picCardFour.Image = My.Resources.IceSpirit
+            Case 2
+                picCardFour.Image = My.Resources.Goblins
+            Case 3
+                picCardFour.Image = My.Resources.Zap
+            Case 4
+                picCardFour.Image = My.Resources.FireSpirits
+            Case 5
+                picCardFour.Image = My.Resources.SpearGoblins
+            Case 6
+                picCardFour.Image = My.Resources.Knight
+            Case 7
+                picCardFour.Image = My.Resources.Archers
+            Case 8
+                picCardFour.Image = My.Resources.Arrows
+            Case 9
+                picCardFour.Image = My.Resources.Minions
+            Case 10
+                picCardFour.Image = My.Resources.Cannon
+            Case 11
+                picCardFour.Image = My.Resources.GoblinGang
+            Case 12
+                picCardFour.Image = My.Resources.Bomber
+            Case 13
+                picCardFour.Image = My.Resources.Tesla
+            Case 14
+                picCardFour.Image = My.Resources.Mortar
+            Case 15
+                picCardFour.Image = My.Resources.Barbarians
+            Case 16
+                picCardFour.Image = My.Resources.MinionHorde
+            Case 17
+                picCardFour.Image = My.Resources.EliteBarbarians
+            Case 18
+                picCardFour.Image = My.Resources.RoyaleGiant
+            Case 19
+                picCardFour.Image = My.Resources.IceGolem
+            Case 20
+                picCardFour.Image = My.Resources.Heal
+            Case 21
+                picCardFour.Image = My.Resources.Tombstone
+            Case 22
+                picCardFour.Image = My.Resources.DartGoblin
+            Case 23
+                picCardFour.Image = My.Resources.MegaMinion
+            Case 24
+                picCardFour.Image = My.Resources.BattleRam
+            Case 25
+                picCardFour.Image = My.Resources.Fireball
+            Case 26
+                picCardFour.Image = My.Resources.Furnace
+            Case 27
+                picCardFour.Image = My.Resources.HogRider
+            Case 28
+                picCardFour.Image = My.Resources.Musketeer
+            Case 29
+                picCardFour.Image = My.Resources.MiniPekka
+            Case 30
+                picCardFour.Image = My.Resources.Valkyrie
+            Case 31
+                picCardFour.Image = My.Resources.InfernoTower
+            Case 32
+                picCardFour.Image = My.Resources.Giant
+            Case 33
+                picCardFour.Image = My.Resources.BombTower
+            Case 34
+                picCardFour.Image = My.Resources.Wizard
+            Case 35
+                picCardFour.Image = My.Resources.GoblinHut
+            Case 36
+                picCardFour.Image = My.Resources.Rocket
+            Case 37
+                picCardFour.Image = My.Resources.ElixirCollector
+            Case 38
+                picCardFour.Image = My.Resources.BarbarianHut
+            Case 39
+                picCardFour.Image = My.Resources.ThreeMusketeers
+            Case 40
+                picCardFour.Image = My.Resources.Mirror
+            Case 41
+                picCardFour.Image = My.Resources.Rage
+            Case 42
+                picCardFour.Image = My.Resources.SkeletonArmy
+            Case 43
+                picCardFour.Image = My.Resources.Guards
+            Case 44
+                picCardFour.Image = My.Resources.GoblinBarrel
+            Case 45
+                picCardFour.Image = My.Resources.Tornado
+            Case 46
+                picCardFour.Image = My.Resources.Clone
+            Case 47
+                picCardFour.Image = My.Resources.BabyDragon
+            Case 48
+                picCardFour.Image = My.Resources.Freeze
+            Case 49
+                picCardFour.Image = My.Resources.Poison
+            Case 50
+                picCardFour.Image = My.Resources.DarkPrince
+            Case 51
+                picCardFour.Image = My.Resources.Witch
+            Case 52
+                picCardFour.Image = My.Resources.Executioner
+            Case 53
+                picCardFour.Image = My.Resources.Balloon
+            Case 54
+                picCardFour.Image = My.Resources.Bowler
+            Case 55
+                picCardFour.Image = My.Resources.Prince
+            Case 56
+                picCardFour.Image = My.Resources.GiantSkeleton
+            Case 57
+                picCardFour.Image = My.Resources.X_Bow
+            Case 58
+                picCardFour.Image = My.Resources.Lightning
+            Case 59
+                picCardFour.Image = My.Resources.Pekka
+            Case 60
+                picCardFour.Image = My.Resources.Golem
+            Case 61
+                picCardFour.Image = My.Resources.TheLog
+            Case 62
+                picCardFour.Image = My.Resources.Miner
+            Case 63
+                picCardFour.Image = My.Resources.Princess
+            Case 64
+                picCardFour.Image = My.Resources.Bandit
+            Case 65
+                picCardFour.Image = My.Resources.Ice_Wizard
+            Case 66
+                picCardFour.Image = My.Resources.InfernoDragon
+            Case 67
+                picCardFour.Image = My.Resources.NightWitch
+            Case 68
+                picCardFour.Image = My.Resources.ElectroWizard
+            Case 69
+                picCardFour.Image = My.Resources.Lumberjack
+            Case 70
+                picCardFour.Image = My.Resources.Graveyard
+            Case 71
+                picCardFour.Image = My.Resources.Sparky
+            Case 72
+                picCardFour.Image = My.Resources.LavaHound
+            Case 73
+                picCardFour.Image = My.Resources._error
+        End Select
+        Select Case intCardFive
+            Case 0
+                picCardFive.Image = My.Resources.Skeletons
+            Case 1
+                picCardFive.Image = My.Resources.IceSpirit
+            Case 2
+                picCardFive.Image = My.Resources.Goblins
+            Case 3
+                picCardFive.Image = My.Resources.Zap
+            Case 4
+                picCardFive.Image = My.Resources.FireSpirits
+            Case 5
+                picCardFive.Image = My.Resources.SpearGoblins
+            Case 6
+                picCardFive.Image = My.Resources.Knight
+            Case 7
+                picCardFive.Image = My.Resources.Archers
+            Case 8
+                picCardFive.Image = My.Resources.Arrows
+            Case 9
+                picCardFive.Image = My.Resources.Minions
+            Case 10
+                picCardFive.Image = My.Resources.Cannon
+            Case 11
+                picCardFive.Image = My.Resources.GoblinGang
+            Case 12
+                picCardFive.Image = My.Resources.Bomber
+            Case 13
+                picCardFive.Image = My.Resources.Tesla
+            Case 14
+                picCardFive.Image = My.Resources.Mortar
+            Case 15
+                picCardFive.Image = My.Resources.Barbarians
+            Case 16
+                picCardFive.Image = My.Resources.MinionHorde
+            Case 17
+                picCardFive.Image = My.Resources.EliteBarbarians
+            Case 18
+                picCardFive.Image = My.Resources.RoyaleGiant
+            Case 19
+                picCardFive.Image = My.Resources.IceGolem
+            Case 20
+                picCardFive.Image = My.Resources.Heal
+            Case 21
+                picCardFive.Image = My.Resources.Tombstone
+            Case 22
+                picCardFive.Image = My.Resources.DartGoblin
+            Case 23
+                picCardFive.Image = My.Resources.MegaMinion
+            Case 24
+                picCardFive.Image = My.Resources.BattleRam
+            Case 25
+                picCardFive.Image = My.Resources.Fireball
+            Case 26
+                picCardFive.Image = My.Resources.Furnace
+            Case 27
+                picCardFive.Image = My.Resources.HogRider
+            Case 28
+                picCardFive.Image = My.Resources.Musketeer
+            Case 29
+                picCardFive.Image = My.Resources.MiniPekka
+            Case 30
+                picCardFive.Image = My.Resources.Valkyrie
+            Case 31
+                picCardFive.Image = My.Resources.InfernoTower
+            Case 32
+                picCardFive.Image = My.Resources.Giant
+            Case 33
+                picCardFive.Image = My.Resources.BombTower
+            Case 34
+                picCardFive.Image = My.Resources.Wizard
+            Case 35
+                picCardFive.Image = My.Resources.GoblinHut
+            Case 36
+                picCardFive.Image = My.Resources.Rocket
+            Case 37
+                picCardFive.Image = My.Resources.ElixirCollector
+            Case 38
+                picCardFive.Image = My.Resources.BarbarianHut
+            Case 39
+                picCardFive.Image = My.Resources.ThreeMusketeers
+            Case 40
+                picCardFive.Image = My.Resources.Mirror
+            Case 41
+                picCardFive.Image = My.Resources.Rage
+            Case 42
+                picCardFive.Image = My.Resources.SkeletonArmy
+            Case 43
+                picCardFive.Image = My.Resources.Guards
+            Case 44
+                picCardFive.Image = My.Resources.GoblinBarrel
+            Case 45
+                picCardFive.Image = My.Resources.Tornado
+            Case 46
+                picCardFive.Image = My.Resources.Clone
+            Case 47
+                picCardFive.Image = My.Resources.BabyDragon
+            Case 48
+                picCardFive.Image = My.Resources.Freeze
+            Case 49
+                picCardFive.Image = My.Resources.Poison
+            Case 50
+                picCardFive.Image = My.Resources.DarkPrince
+            Case 51
+                picCardFive.Image = My.Resources.Witch
+            Case 52
+                picCardFive.Image = My.Resources.Executioner
+            Case 53
+                picCardFive.Image = My.Resources.Balloon
+            Case 54
+                picCardFive.Image = My.Resources.Bowler
+            Case 55
+                picCardFive.Image = My.Resources.Prince
+            Case 56
+                picCardFive.Image = My.Resources.GiantSkeleton
+            Case 57
+                picCardFive.Image = My.Resources.X_Bow
+            Case 58
+                picCardFive.Image = My.Resources.Lightning
+            Case 59
+                picCardFive.Image = My.Resources.Pekka
+            Case 60
+                picCardFive.Image = My.Resources.Golem
+            Case 61
+                picCardFive.Image = My.Resources.TheLog
+            Case 62
+                picCardFive.Image = My.Resources.Miner
+            Case 63
+                picCardFive.Image = My.Resources.Princess
+            Case 64
+                picCardFive.Image = My.Resources.Bandit
+            Case 65
+                picCardFive.Image = My.Resources.Ice_Wizard
+            Case 66
+                picCardFive.Image = My.Resources.InfernoDragon
+            Case 67
+                picCardFive.Image = My.Resources.NightWitch
+            Case 68
+                picCardFive.Image = My.Resources.ElectroWizard
+            Case 69
+                picCardFive.Image = My.Resources.Lumberjack
+            Case 70
+                picCardFive.Image = My.Resources.Graveyard
+            Case 71
+                picCardFive.Image = My.Resources.Sparky
+            Case 72
+                picCardFive.Image = My.Resources.LavaHound
+            Case 73
+                picCardFive.Image = My.Resources._error
+        End Select
+        Select Case intCardSix
+            Case 0
+                picCardSix.Image = My.Resources.Skeletons
+            Case 1
+                picCardSix.Image = My.Resources.IceSpirit
+            Case 2
+                picCardSix.Image = My.Resources.Goblins
+            Case 3
+                picCardSix.Image = My.Resources.Zap
+            Case 4
+                picCardSix.Image = My.Resources.FireSpirits
+            Case 5
+                picCardSix.Image = My.Resources.SpearGoblins
+            Case 6
+                picCardSix.Image = My.Resources.Knight
+            Case 7
+                picCardSix.Image = My.Resources.Archers
+            Case 8
+                picCardSix.Image = My.Resources.Arrows
+            Case 9
+                picCardSix.Image = My.Resources.Minions
+            Case 10
+                picCardSix.Image = My.Resources.Cannon
+            Case 11
+                picCardSix.Image = My.Resources.GoblinGang
+            Case 12
+                picCardSix.Image = My.Resources.Bomber
+            Case 13
+                picCardSix.Image = My.Resources.Tesla
+            Case 14
+                picCardSix.Image = My.Resources.Mortar
+            Case 15
+                picCardSix.Image = My.Resources.Barbarians
+            Case 16
+                picCardSix.Image = My.Resources.MinionHorde
+            Case 17
+                picCardSix.Image = My.Resources.EliteBarbarians
+            Case 18
+                picCardSix.Image = My.Resources.RoyaleGiant
+            Case 19
+                picCardSix.Image = My.Resources.IceGolem
+            Case 20
+                picCardSix.Image = My.Resources.Heal
+            Case 21
+                picCardSix.Image = My.Resources.Tombstone
+            Case 22
+                picCardSix.Image = My.Resources.DartGoblin
+            Case 23
+                picCardSix.Image = My.Resources.MegaMinion
+            Case 24
+                picCardSix.Image = My.Resources.BattleRam
+            Case 25
+                picCardSix.Image = My.Resources.Fireball
+            Case 26
+                picCardSix.Image = My.Resources.Furnace
+            Case 27
+                picCardSix.Image = My.Resources.HogRider
+            Case 28
+                picCardSix.Image = My.Resources.Musketeer
+            Case 29
+                picCardSix.Image = My.Resources.MiniPekka
+            Case 30
+                picCardSix.Image = My.Resources.Valkyrie
+            Case 31
+                picCardSix.Image = My.Resources.InfernoTower
+            Case 32
+                picCardSix.Image = My.Resources.Giant
+            Case 33
+                picCardSix.Image = My.Resources.BombTower
+            Case 34
+                picCardSix.Image = My.Resources.Wizard
+            Case 35
+                picCardSix.Image = My.Resources.GoblinHut
+            Case 36
+                picCardSix.Image = My.Resources.Rocket
+            Case 37
+                picCardSix.Image = My.Resources.ElixirCollector
+            Case 38
+                picCardSix.Image = My.Resources.BarbarianHut
+            Case 39
+                picCardSix.Image = My.Resources.ThreeMusketeers
+            Case 40
+                picCardSix.Image = My.Resources.Mirror
+            Case 41
+                picCardSix.Image = My.Resources.Rage
+            Case 42
+                picCardSix.Image = My.Resources.SkeletonArmy
+            Case 43
+                picCardSix.Image = My.Resources.Guards
+            Case 44
+                picCardSix.Image = My.Resources.GoblinBarrel
+            Case 45
+                picCardSix.Image = My.Resources.Tornado
+            Case 46
+                picCardSix.Image = My.Resources.Clone
+            Case 47
+                picCardSix.Image = My.Resources.BabyDragon
+            Case 48
+                picCardSix.Image = My.Resources.Freeze
+            Case 49
+                picCardSix.Image = My.Resources.Poison
+            Case 50
+                picCardSix.Image = My.Resources.DarkPrince
+            Case 51
+                picCardSix.Image = My.Resources.Witch
+            Case 52
+                picCardSix.Image = My.Resources.Executioner
+            Case 53
+                picCardSix.Image = My.Resources.Balloon
+            Case 54
+                picCardSix.Image = My.Resources.Bowler
+            Case 55
+                picCardSix.Image = My.Resources.Prince
+            Case 56
+                picCardSix.Image = My.Resources.GiantSkeleton
+            Case 57
+                picCardSix.Image = My.Resources.X_Bow
+            Case 58
+                picCardSix.Image = My.Resources.Lightning
+            Case 59
+                picCardSix.Image = My.Resources.Pekka
+            Case 60
+                picCardSix.Image = My.Resources.Golem
+            Case 61
+                picCardSix.Image = My.Resources.TheLog
+            Case 62
+                picCardSix.Image = My.Resources.Miner
+            Case 63
+                picCardSix.Image = My.Resources.Princess
+            Case 64
+                picCardSix.Image = My.Resources.Bandit
+            Case 65
+                picCardSix.Image = My.Resources.Ice_Wizard
+            Case 66
+                picCardSix.Image = My.Resources.InfernoDragon
+            Case 67
+                picCardSix.Image = My.Resources.NightWitch
+            Case 68
+                picCardSix.Image = My.Resources.ElectroWizard
+            Case 69
+                picCardSix.Image = My.Resources.Lumberjack
+            Case 70
+                picCardSix.Image = My.Resources.Graveyard
+            Case 71
+                picCardSix.Image = My.Resources.Sparky
+            Case 72
+                picCardSix.Image = My.Resources.LavaHound
+            Case 73
+                picCardSix.Image = My.Resources._error
+        End Select
+        Select Case intCardSeven
+            Case 0
+                picCardSeven.Image = My.Resources.Skeletons
+            Case 1
+                picCardSeven.Image = My.Resources.IceSpirit
+            Case 2
+                picCardSeven.Image = My.Resources.Goblins
+            Case 3
+                picCardSeven.Image = My.Resources.Zap
+            Case 4
+                picCardSeven.Image = My.Resources.FireSpirits
+            Case 5
+                picCardSeven.Image = My.Resources.SpearGoblins
+            Case 6
+                picCardSeven.Image = My.Resources.Knight
+            Case 7
+                picCardSeven.Image = My.Resources.Archers
+            Case 8
+                picCardSeven.Image = My.Resources.Arrows
+            Case 9
+                picCardSeven.Image = My.Resources.Minions
+            Case 10
+                picCardSeven.Image = My.Resources.Cannon
+            Case 11
+                picCardSeven.Image = My.Resources.GoblinGang
+            Case 12
+                picCardSeven.Image = My.Resources.Bomber
+            Case 13
+                picCardSeven.Image = My.Resources.Tesla
+            Case 14
+                picCardSeven.Image = My.Resources.Mortar
+            Case 15
+                picCardSeven.Image = My.Resources.Barbarians
+            Case 16
+                picCardSeven.Image = My.Resources.MinionHorde
+            Case 17
+                picCardSeven.Image = My.Resources.EliteBarbarians
+            Case 18
+                picCardSeven.Image = My.Resources.RoyaleGiant
+            Case 19
+                picCardSeven.Image = My.Resources.IceGolem
+            Case 20
+                picCardSeven.Image = My.Resources.Heal
+            Case 21
+                picCardSeven.Image = My.Resources.Tombstone
+            Case 22
+                picCardSeven.Image = My.Resources.DartGoblin
+            Case 23
+                picCardSeven.Image = My.Resources.MegaMinion
+            Case 24
+                picCardSeven.Image = My.Resources.BattleRam
+            Case 25
+                picCardSeven.Image = My.Resources.Fireball
+            Case 26
+                picCardSeven.Image = My.Resources.Furnace
+            Case 27
+                picCardSeven.Image = My.Resources.HogRider
+            Case 28
+                picCardSeven.Image = My.Resources.Musketeer
+            Case 29
+                picCardSeven.Image = My.Resources.MiniPekka
+            Case 30
+                picCardSeven.Image = My.Resources.Valkyrie
+            Case 31
+                picCardSeven.Image = My.Resources.InfernoTower
+            Case 32
+                picCardSeven.Image = My.Resources.Giant
+            Case 33
+                picCardSeven.Image = My.Resources.BombTower
+            Case 34
+                picCardSeven.Image = My.Resources.Wizard
+            Case 35
+                picCardSeven.Image = My.Resources.GoblinHut
+            Case 36
+                picCardSeven.Image = My.Resources.Rocket
+            Case 37
+                picCardSeven.Image = My.Resources.ElixirCollector
+            Case 38
+                picCardSeven.Image = My.Resources.BarbarianHut
+            Case 39
+                picCardSeven.Image = My.Resources.ThreeMusketeers
+            Case 40
+                picCardSeven.Image = My.Resources.Mirror
+            Case 41
+                picCardSeven.Image = My.Resources.Rage
+            Case 42
+                picCardSeven.Image = My.Resources.SkeletonArmy
+            Case 43
+                picCardSeven.Image = My.Resources.Guards
+            Case 44
+                picCardSeven.Image = My.Resources.GoblinBarrel
+            Case 45
+                picCardSeven.Image = My.Resources.Tornado
+            Case 46
+                picCardSeven.Image = My.Resources.Clone
+            Case 47
+                picCardSeven.Image = My.Resources.BabyDragon
+            Case 48
+                picCardSeven.Image = My.Resources.Freeze
+            Case 49
+                picCardSeven.Image = My.Resources.Poison
+            Case 50
+                picCardSeven.Image = My.Resources.DarkPrince
+            Case 51
+                picCardSeven.Image = My.Resources.Witch
+            Case 52
+                picCardSeven.Image = My.Resources.Executioner
+            Case 53
+                picCardSeven.Image = My.Resources.Balloon
+            Case 54
+                picCardSeven.Image = My.Resources.Bowler
+            Case 55
+                picCardSeven.Image = My.Resources.Prince
+            Case 56
+                picCardSeven.Image = My.Resources.GiantSkeleton
+            Case 57
+                picCardSeven.Image = My.Resources.X_Bow
+            Case 58
+                picCardSeven.Image = My.Resources.Lightning
+            Case 59
+                picCardSeven.Image = My.Resources.Pekka
+            Case 60
+                picCardSeven.Image = My.Resources.Golem
+            Case 61
+                picCardSeven.Image = My.Resources.TheLog
+            Case 62
+                picCardSeven.Image = My.Resources.Miner
+            Case 63
+                picCardSeven.Image = My.Resources.Princess
+            Case 64
+                picCardSeven.Image = My.Resources.Bandit
+            Case 65
+                picCardSeven.Image = My.Resources.Ice_Wizard
+            Case 66
+                picCardSeven.Image = My.Resources.InfernoDragon
+            Case 67
+                picCardSeven.Image = My.Resources.NightWitch
+            Case 68
+                picCardSeven.Image = My.Resources.ElectroWizard
+            Case 69
+                picCardSeven.Image = My.Resources.Lumberjack
+            Case 70
+                picCardSeven.Image = My.Resources.Graveyard
+            Case 71
+                picCardSeven.Image = My.Resources.Sparky
+            Case 72
+                picCardSeven.Image = My.Resources.LavaHound
+            Case 73
+                picCardSeven.Image = My.Resources._error
+        End Select
+        Select Case intCardEight
+            Case 0
+                picCardEight.Image = My.Resources.Skeletons
+            Case 1
+                picCardEight.Image = My.Resources.IceSpirit
+            Case 2
+                picCardEight.Image = My.Resources.Goblins
+            Case 3
+                picCardEight.Image = My.Resources.Zap
+            Case 4
+                picCardEight.Image = My.Resources.FireSpirits
+            Case 5
+                picCardEight.Image = My.Resources.SpearGoblins
+            Case 6
+                picCardEight.Image = My.Resources.Knight
+            Case 7
+                picCardEight.Image = My.Resources.Archers
+            Case 8
+                picCardEight.Image = My.Resources.Arrows
+            Case 9
+                picCardEight.Image = My.Resources.Minions
+            Case 10
+                picCardEight.Image = My.Resources.Cannon
+            Case 11
+                picCardEight.Image = My.Resources.GoblinGang
+            Case 12
+                picCardEight.Image = My.Resources.Bomber
+            Case 13
+                picCardEight.Image = My.Resources.Tesla
+            Case 14
+                picCardEight.Image = My.Resources.Mortar
+            Case 15
+                picCardEight.Image = My.Resources.Barbarians
+            Case 16
+                picCardEight.Image = My.Resources.MinionHorde
+            Case 17
+                picCardEight.Image = My.Resources.EliteBarbarians
+            Case 18
+                picCardEight.Image = My.Resources.RoyaleGiant
+            Case 19
+                picCardEight.Image = My.Resources.IceGolem
+            Case 20
+                picCardEight.Image = My.Resources.Heal
+            Case 21
+                picCardEight.Image = My.Resources.Tombstone
+            Case 22
+                picCardEight.Image = My.Resources.DartGoblin
+            Case 23
+                picCardEight.Image = My.Resources.MegaMinion
+            Case 24
+                picCardEight.Image = My.Resources.BattleRam
+            Case 25
+                picCardEight.Image = My.Resources.Fireball
+            Case 26
+                picCardEight.Image = My.Resources.Furnace
+            Case 27
+                picCardEight.Image = My.Resources.HogRider
+            Case 28
+                picCardEight.Image = My.Resources.Musketeer
+            Case 29
+                picCardEight.Image = My.Resources.MiniPekka
+            Case 30
+                picCardEight.Image = My.Resources.Valkyrie
+            Case 31
+                picCardEight.Image = My.Resources.InfernoTower
+            Case 32
+                picCardEight.Image = My.Resources.Giant
+            Case 33
+                picCardEight.Image = My.Resources.BombTower
+            Case 34
+                picCardEight.Image = My.Resources.Wizard
+            Case 35
+                picCardEight.Image = My.Resources.GoblinHut
+            Case 36
+                picCardEight.Image = My.Resources.Rocket
+            Case 37
+                picCardEight.Image = My.Resources.ElixirCollector
+            Case 38
+                picCardEight.Image = My.Resources.BarbarianHut
+            Case 39
+                picCardEight.Image = My.Resources.ThreeMusketeers
+            Case 40
+                picCardEight.Image = My.Resources.Mirror
+            Case 41
+                picCardEight.Image = My.Resources.Rage
+            Case 42
+                picCardEight.Image = My.Resources.SkeletonArmy
+            Case 43
+                picCardEight.Image = My.Resources.Guards
+            Case 44
+                picCardEight.Image = My.Resources.GoblinBarrel
+            Case 45
+                picCardEight.Image = My.Resources.Tornado
+            Case 46
+                picCardEight.Image = My.Resources.Clone
+            Case 47
+                picCardEight.Image = My.Resources.BabyDragon
+            Case 48
+                picCardEight.Image = My.Resources.Freeze
+            Case 49
+                picCardEight.Image = My.Resources.Poison
+            Case 50
+                picCardEight.Image = My.Resources.DarkPrince
+            Case 51
+                picCardEight.Image = My.Resources.Witch
+            Case 52
+                picCardEight.Image = My.Resources.Executioner
+            Case 53
+                picCardEight.Image = My.Resources.Balloon
+            Case 54
+                picCardEight.Image = My.Resources.Bowler
+            Case 55
+                picCardEight.Image = My.Resources.Prince
+            Case 56
+                picCardEight.Image = My.Resources.GiantSkeleton
+            Case 57
+                picCardEight.Image = My.Resources.X_Bow
+            Case 58
+                picCardEight.Image = My.Resources.Lightning
+            Case 59
+                picCardEight.Image = My.Resources.Pekka
+            Case 60
+                picCardEight.Image = My.Resources.Golem
+            Case 61
+                picCardEight.Image = My.Resources.TheLog
+            Case 62
+                picCardEight.Image = My.Resources.Miner
+            Case 63
+                picCardEight.Image = My.Resources.Princess
+            Case 64
+                picCardEight.Image = My.Resources.Bandit
+            Case 65
+                picCardEight.Image = My.Resources.Ice_Wizard
+            Case 66
+                picCardEight.Image = My.Resources.InfernoDragon
+            Case 67
+                picCardEight.Image = My.Resources.NightWitch
+            Case 68
+                picCardEight.Image = My.Resources.ElectroWizard
+            Case 69
+                picCardEight.Image = My.Resources.Lumberjack
+            Case 70
+                picCardEight.Image = My.Resources.Graveyard
+            Case 71
+                picCardEight.Image = My.Resources.Sparky
+            Case 72
+                picCardEight.Image = My.Resources.LavaHound
+            Case 73
+                picCardEight.Image = My.Resources._error
+        End Select
+    End Sub
+    Private Sub picSettings_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles picSettings.Click
+        picCardOne.Image = Nothing
+        picCardTwo.Image = Nothing
+        picCardThree.Image = Nothing
+        picCardFour.Image = Nothing
+        picCardFive.Image = Nothing
+        picCardSix.Image = Nothing
+        picCardSeven.Image = Nothing
+        picCardEight.Image = Nothing
+        Call StartUI()
+    End Sub
+    Private Sub RestartToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles RestartToolStripMenuItem.Click
+        Call RestartUI()
+    End Sub
+    Private Sub ExitToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ExitToolStripMenuItem.Click
+        Application.Exit()
+    End Sub
+    Private Sub GenerateNumbers(ByRef intCardOne As Integer, ByRef intCardTwo As Integer, ByRef intCardThree As Integer, ByRef intCardFour As Integer, ByRef intCardFive As Integer, ByRef intCardSix As Integer, ByRef intCardSeven As Integer, ByRef intCardEight As Integer)
+        Randomize()
+        intCardOne = Int(Rnd() * 73)
+        Do
+            intCardTwo = Int(Rnd() * 73)
+        Loop Until intCardTwo <> intCardOne
+        Do
+            intCardThree = Int(Rnd() * 73)
+        Loop Until intCardThree <> intCardOne And intCardThree <> intCardTwo
+        Do
+            intCardFour = Int(Rnd() * 73)
+        Loop Until intCardFour <> intCardOne And intCardFour <> intCardTwo And intCardFour <> intCardThree
+        Do
+            intCardFive = Int(Rnd() * 73)
+        Loop Until intCardFive <> intCardOne And intCardFive <> intCardTwo And intCardFive <> intCardThree And intCardFive <> intCardFour
+        Do
+            intCardSix = Int(Rnd() * 73)
+        Loop Until intCardSix <> intCardOne And intCardSix <> intCardTwo And intCardSix <> intCardThree And intCardSix <> intCardFour And intCardSix <> intCardFive
+        Do
+            intCardSeven = Int(Rnd() * 73)
+        Loop Until intCardSeven <> intCardOne And intCardSeven <> intCardTwo And intCardSeven <> intCardThree And intCardSeven <> intCardFour And intCardSeven <> intCardFive And intCardSeven <> intCardSix
+        Do
+            intCardEight = Int(Rnd() * 73)
+        Loop Until intCardEight <> intCardOne And intCardEight <> intCardTwo And intCardEight <> intCardThree And intCardEight <> intCardFour And intCardEight <> intCardFive And intCardEight <> intCardSix And intCardEight <> intCardSeven
+    End Sub
+    Private Sub RestartUI()
+        Me.MenuStrip1.Visible = False
+        For index As Integer = 0 To 72
+            chkCards.SetItemCheckState(index, CheckState.Unchecked)
+            RedFlagged(index) = False
+        Next index
+        Me.picBackground.Hide()
+        Me.picCardOne.Hide()
+        Me.picCardTwo.Hide()
+        Me.picCardThree.Hide()
+        Me.picCardFour.Hide()
+        Me.picCardFive.Hide()
+        Me.picCardSix.Hide()
+        Me.picCardSeven.Hide()
+        Me.picCardEight.Hide()
+        Me.OptionsToolStripMenuItem.Visible = False
+        Me.chkCards.Show()
+        Me.picRedKing.Show()
+        Me.picLegendaryCard.Show()
+        Me.btnStart.Show()
+        Me.btnCheckAll.Show()
+        Me.btnElixirCost.Hide()
+        Me.btnRedFlag.Hide()
+        Me.btnDeckType.Hide()
+        Me.btnCounter.Hide()
+        Me.picPlayButton.Hide()
+        Me.lblHeaderPrompt.Text = ""
+        Me.lblFlaggedCards.Hide()
+        Me.btnLowCost.Hide()
+        Me.btnMediumCost.Hide()
+        Me.btnHighCost.Hide()
+        Me.btnRedFlagVerify.Hide()
+        Me.btnCycleDeck.Hide()
+        Me.btnSiegeDeck.Hide()
+        Me.btnBeatdownDeck.Hide()
+        Me.lblStartPrompt.Hide()
+        Me.btnNoPreferenceCost.Hide()
+        Me.btnNoPreferenceDeck.Hide()
+        Me.strElixirCostSetting = "No Preference"
+        Me.strRedFlagSetting = "None"
+        Me.strDeckTypeSetting = "No Preference"
+        Me.strCounterSetting = "None"
+        CardsOwned = 0
+        intRedFlagSetting = 73
+        Me.picTryAgain.Hide()
+        Me.picSettings.Hide()
+    End Sub
+    Private Sub StartUI()
+        Me.MenuStrip1.Visible = True
+        For index As Integer = 0 To 72
+            chkCards.SetItemCheckState(index, CheckState.Unchecked)
+        Next index
+        Me.picBackground.Hide()
+        Me.picCardOne.Hide()
+        Me.picCardTwo.Hide()
+        Me.picCardThree.Hide()
+        Me.picCardFour.Hide()
+        Me.picCardFive.Hide()
+        Me.picCardSix.Hide()
+        Me.picCardSeven.Hide()
+        Me.picCardEight.Hide()
+        Me.OptionsToolStripMenuItem.Visible = True
+        Me.chkCards.Hide()
+        Me.picRedKing.Hide()
+        Me.picLegendaryCard.Hide()
+        Me.btnStart.Hide()
+        Me.btnCheckAll.Hide()
+        Me.btnElixirCost.Show()
+        Me.btnRedFlag.Show()
+        Me.btnDeckType.Show()
+        Me.btnCounter.Show()
+        Me.picPlayButton.Show()
+        Me.lblHeaderPrompt.Text = "Select a setting to modify:"
+        Me.lblFlaggedCards.Hide()
+        Me.btnLowCost.Hide()
+        Me.btnMediumCost.Hide()
+        Me.btnHighCost.Hide()
+        Me.btnRedFlagVerify.Hide()
+        Me.btnCycleDeck.Hide()
+        Me.btnSiegeDeck.Hide()
+        Me.btnBeatdownDeck.Hide()
+        Me.lblStartPrompt.Show()
+        Me.btnNoPreferenceCost.Hide()
+        Me.btnNoPreferenceDeck.Hide()
+        Me.picTryAgain.Hide()
+        Me.picSettings.Hide()
+    End Sub
+    Private Sub ElixirCostUI()
+        Me.OptionsToolStripMenuItem.Visible = True
+        Me.chkCards.Hide()
+        Me.picRedKing.Hide()
+        Me.picLegendaryCard.Hide()
+        Me.btnStart.Hide()
+        Me.btnCheckAll.Hide()
+        Me.btnElixirCost.Hide()
+        Me.btnRedFlag.Hide()
+        Me.btnDeckType.Hide()
+        Me.btnCounter.Hide()
+        Me.picPlayButton.Hide()
+        Me.lblHeaderPrompt.Text = "Elixir Cost" & vbCrLf & "Current Setting: " & strElixirCostSetting
+        Me.lblFlaggedCards.Hide()
+        Me.btnLowCost.Show()
+        Me.btnMediumCost.Show()
+        Me.btnHighCost.Show()
+        Me.lblStartPrompt.Hide()
+        Me.btnNoPreferenceCost.Show()
+    End Sub
+    Private Sub RedFlagUI()
+        Me.OptionsToolStripMenuItem.Visible = True
+        Me.chkCards.Show()
+        Me.picRedKing.Hide()
+        Me.picLegendaryCard.Hide()
+        Me.btnStart.Hide()
+        Me.btnCheckAll.Hide()
+        Me.btnElixirCost.Hide()
+        Me.btnRedFlag.Hide()
+        Me.btnDeckType.Hide()
+        Me.btnCounter.Hide()
+        Me.picPlayButton.Hide()
+        Me.lblHeaderPrompt.Text = "Red Flag" & vbCrLf & "Current Flagged Cards:"
+        Me.lblFlaggedCards.Text = strRedFlagSetting
+        Me.lblFlaggedCards.Show()
+        Me.btnLowCost.Hide()
+        Me.btnMediumCost.Hide()
+        Me.btnHighCost.Hide()
+        Me.btnRedFlagVerify.Show()
+        Me.lblStartPrompt.Hide()
+        MessageBox.Show("Red flagging a card will guarantee that it is in your generated deck." & vbCrLf & "(You may only red flag one card at once)", "Red Flags")
+    End Sub
+    Private Sub DeckTypeUI()
+        Me.OptionsToolStripMenuItem.Visible = True
+        Me.chkCards.Hide()
+        Me.picRedKing.Hide()
+        Me.picLegendaryCard.Hide()
+        Me.btnStart.Hide()
+        Me.btnCheckAll.Hide()
+        Me.btnElixirCost.Hide()
+        Me.btnRedFlag.Hide()
+        Me.btnDeckType.Hide()
+        Me.btnCounter.Hide()
+        Me.picPlayButton.Hide()
+        Me.lblHeaderPrompt.Text = "Deck Type" & vbCrLf & "Current Deck Type: " & strDeckTypeSetting
+        Me.lblFlaggedCards.Hide()
+        Me.btnLowCost.Hide()
+        Me.btnMediumCost.Hide()
+        Me.btnHighCost.Hide()
+        Me.btnCycleDeck.Show()
+        Me.btnSiegeDeck.Show()
+        Me.btnBeatdownDeck.Show()
+        Me.lblStartPrompt.Hide()
+        Me.btnNoPreferenceDeck.Show()
+    End Sub
+    'Private Sub CounterUI()
+    '    Me.OptionsToolStripMenuItem.Visible = True
+    '    Me.chkCards.Show()
+    '    Me.picRedKing.Hide()
+    '    Me.picLegendaryCard.Hide()
+    '    Me.btnStart.Hide()
+    '    Me.btnCheckAll.Hide()
+    '    Me.btnElixirCost.Hide()
+    '    Me.btnRedFlag.Hide()
+    '    Me.btnDeckType.Hide()
+    '    Me.btnCounter.Hide()
+    '    Me.picPlayButton.Hide()
+    '    Me.lblHeaderPrompt.Text = "Counter" & vbCrLf & "Current counter set: " & strCounterSetting
+    '    Me.lblFlaggedCards.Hide()
+    '    Me.btnLowCost.Hide()
+    '    Me.btnAverageCost.Hide()
+    '    Me.btnHighCost.Hide()
+    '    Me.lblStartPrompt.Hide()
+    '    MessageBox.Show("You may only set one card to counter at once", "Counter")
+    'End Sub
+    Private Sub PlayUI()
+        Me.MenuStrip1.Visible = False
+        Me.OptionsToolStripMenuItem.Visible = False
+        Me.chkCards.Hide()
+        Me.picRedKing.Hide()
+        Me.picLegendaryCard.Hide()
+        Me.picBackground.Show()
+        Me.picCardOne.Show()
+        Me.picCardTwo.Show()
+        Me.picCardThree.Show()
+        Me.picCardFour.Show()
+        Me.picCardFive.Show()
+        Me.picCardSix.Show()
+        Me.picCardSeven.Show()
+        Me.picCardEight.Show()
+        Me.btnStart.Hide()
+        Me.btnCheckAll.Hide()
+        Me.btnElixirCost.Hide()
+        Me.btnRedFlag.Hide()
+        Me.btnDeckType.Hide()
+        Me.btnCounter.Hide()
+        Me.picPlayButton.Hide()
+        Me.lblHeaderPrompt.Text = ""
+        Me.lblFlaggedCards.Hide()
+        Me.btnLowCost.Hide()
+        Me.btnMediumCost.Hide()
+        Me.btnHighCost.Hide()
+        Me.btnRedFlagVerify.Hide()
+        Me.btnCycleDeck.Hide()
+        Me.btnSiegeDeck.Hide()
+        Me.btnBeatdownDeck.Hide()
+        Me.lblStartPrompt.Hide()
+        Me.btnNoPreferenceCost.Hide()
+        Me.btnNoPreferenceDeck.Hide()
+        Me.picTryAgain.Show()
+        Me.picSettings.Show()
+    End Sub
+End Class
+</p>
+		</CENTER>
+		<H3>All contents are subject to copyright. All rights reserved. May only be replicated within fair use.</H3>
+		<a href="index.html"><H1><B>Back</B></H1>
+	</BODY>
+</HTML>
